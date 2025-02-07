@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#714B67">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>MarsMeta Tech - Innovating the Future, Today</title>
+    <script defer src="/__/firebase/10.7.0/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/10.7.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/10.7.0/firebase-functions-compat.js"></script>
+    <script defer src="chat.js"></script>
+    <style>
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            overscroll-behavior: contain;
+        }
+
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 4rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        } */
+        @import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Caveat', cursive;
+            padding-top: 80px;
+        }
+
+        .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* New fixed positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+
+        .logo {
+            color: #875A7B;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4c4c4c;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #875A7B;
+            color: white;
+        }
+
+        .btn-secondary {
+            color: #4c4c4c;
+        }
+
+        .hero {
+            /* padding: 4rem; */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 400px;
+           
+        }
+
+        .quote-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            
+          
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: #4c4c4c;
+            
+        }
+
+        .quote-author {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .heading-main {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: #2b2b2b;
+        }
+
+        .heading-accent {
+            color: #FF9955;
+            text-decoration: underline;
+            text-decoration-color: #00FF99;
+            text-decoration-thickness: 4px;
+            text-underline-offset: 8px;
+        }
+
+        .dashboard-preview {
+            margin-top: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #28a745;
+            width: 60%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: #714B67;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            padding: 0.5rem;
+            touch-action: manipulation;
+        }
+
+        .try-free-btn {
+            background-color: #714B67;
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .hero {
+            text-align: center;
+            /* padding: 4rem 1rem; */
+            background-color: #f8f9fa;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            padding: 0 1rem;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            margin-bottom: 2rem;
+            color: #444;
+            padding: 0 1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .price-tag {
+            color: #714B67;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-style: italic;
+            padding: 0.5rem;
+        }
+
+        .business-show {
+            background-color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 2rem 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .app-card {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+            touch-action: manipulation;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 0.5rem;
+            pointer-events: none;
+        }
+
+        .app-name {
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        .footer-text {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: #f8f9fa;
+        }
+
+        .footer-text h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .footer-text p {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            z-index: 2000;
+            padding: 2rem;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                padding: 0 2rem;
+            }
+
+            .hero-buttons button {
+                width: 100%;
+            }
+
+            .business-show {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+                margin: 1rem;
+                text-align: center;
+            }
+
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+                padding: 1rem;
+            }
+
+            .app-card {
+                padding: 0.8rem;
+            }
+        }
+
+        @media (hover: hover) {
+            .app-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .nav-links a:hover {
+                color: #714B67;
+            }
+        }
+
+        /* Hide scrollbar but keep functionality */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        /* .x_wd_yellow_highlight_bold_05 {
+    background-image: url(1.png);
+    background-position: center 60%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    white-space: nowrap;
+    
+} */
+
+
+       
+
+        /* Fix for mobile Safari */
+        html {
+            height: -webkit-fill-available;
+        }
+
+        .container {
+            text-align: center;
+            padding: 1.5rem;
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            margin-bottom: 1rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease forwards;
+            line-height: 1.2;
+            padding: 0 10px;
+        }
+
+        .growth-text {
+            color: #20B2AA;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .sparkles {
+            position: absolute;
+            color: #FFD700;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .btn {
+            background: #614051;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 2rem 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            width: min(90%, 300px);
+        }
+
+        /* Active state for touch devices */
+        .btn:active {
+            transform: scale(0.98);
+            background: #523043;
+        }
+
+        .info {
+            color: #666;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+            padding: 0 10px;
+        }
+
+        .arrow {
+            color: #20B2AA;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Optimized animations for mobile */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0.5); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1); 
+            }
+        }
+
+        /* Media queries for better mobile support */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .title {
+                margin-bottom: 0.5rem;
+            }
+
+            .btn {
+                margin: 1.5rem 0;
+                padding: 0.875rem 1.5rem;
+            }
+        }
+
+        /* Prevent text selection on mobile */
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        } 
+
+
+.footer {
+            background-color: #232e3c;
+            color: #ffffff;
+            padding: 50px 0 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .footer h3 {
+            color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #8b95a5;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-description {
+            grid-column: 1 / -1;
+            color: #8b95a5;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #8b95a5;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #364049;
+            color: #8b95a5;
+            font-size: 14px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #8b95a5;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .language-selector:hover {
+            background-color: #364049;
+        }
+        .sss{
+            padding-bottom: 200px;
+        }
+        .ssss{
+            padding: 50px;
+        }
+        .container1 {
+            display: flex;
+            justify-content: center;
+            align-items: top;
+            background-color: #f8f9fa; /* Optional background */
+        }
+        #chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1000; /* Ensures icon is above other elements */
+}
+
+/* Chat Window - Fixed on Screen */
+#chat-window {
+    position: fixed;
+    bottom: 80px;  /* Adjust height above the chat icon */
+    right: 20px;
+    width: 320px;
+    max-height: 900px; /* Prevents the chatbox from becoming too large */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    padding: 10px;
+    z-index: 1001; /* Ensures chat window is above all other content */
+    display: none; /* Initially hidden */
+    overflow-y: auto;
+}
+
+/* Chat Header */
+.chat-header {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Chat Messages Container */
+#chat-messages {
+    max-height: 450px;
+    overflow-y: auto; /* Enables scrolling inside chat messages */
+    padding: 10px;
+}
+
+/* Chat Input */
+input {
+    width: 75%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.contact-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 60%;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            color: #4B5563;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #D1D5DB;
+            border-radius: 4px;
+        }
+
+        .direct-contacts {
+            background-color: #F3F4F6;
+            border-radius: 8px;
+            padding: 30px;
+            width: 40%;
+            height: fit-content;
+        }
+
+        .contact-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .contact-option i {
+            color: #7C3AED;
+            font-size: 24px;
+        }
+
+        .contact-option-text {
+            flex-grow: 1;
+        }
+
+        .contact-option-text h4 {
+            color: #1F2937;
+        }
+
+        .contact-option-text p {
+            color: #6B7280;
+            font-size: 0.9em;
+        }
+
+        #submit-btn {
+            background-color: #7C3AED;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #6D28D9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .contact-section, .direct-contacts {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="chat-icon" onclick="toggleChat()">
+        <img src="company/chatbot.png" height="60px" width="60px">
+    </div>
+    
+    <div id="chat-window">
+        <div class="chat-header">MarsMeta Tech Assistant</div>
+        <div id="chat-messages"></div>
+        <input type="text" id="user-input" placeholder="Type your question...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+<div id="chat-window" style="display: none;">
+    <div class="chat-header">Odoo Assistant</div>
+    <div id="chat-messages"></div>
+    <input type="text" id="user-input" placeholder="Type your question...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+    <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:#714B67;z-index:9999;transition:width 0.3s"></div>
+    <nav class="navbar">
+        <a href="index.html" class="logo">MarsMeta Tech</a>
+        <button class="mobile-menu-btn">☰</button>
+        <div class="nav-links">
+            <a href="index.html">Apps</a>
+            <a href="Industries.html">Industries</a>
+            <a href="Community.html">Community</a>
+            <a href="Pricing.html"> Pricing</a>
+            <a href="Contact.html"><strong>Contact</strong></a>
+            <a href="#">Sign in</a>
+            <a href="startnow.html" class="try-free-btn" style="color: white;">Try it free</a>
+            
+        </div>
+    </nav>
+
+    <div class="mobile-nav" >
+        <button class="close-menu">✕</button>
+        <div class="mobile-nav-links">
+            <strong >
+            <a href="index.html">Apps</a></strong>
+            <strong > <a href="Industries.html">Industries</a></strong>
+                <strong >  <a href="Community.html">Community</a></strong>
+                    <strong > <a href="Pricing.html">Pricing</a></strong>
+                        <strong > <a href="Contact.html">Contact</a></strong>
+                            <strong >  <a href="#">Sign in</a></strong>
+                            <strong><a href="startnow.html" class="try-free-btn" style="color: white;">Try it free</a></strong>
+            
+           
+        </div>
+    </div>
+<section class="ssss"></section>
+    <section class="hero container no-select title ">
+        
+            <h1 style="font-family: 'Caveat', cursive;">Get in Touch<span class="x_wd_yellow_highlight_bold_05" style="font-family: 'Caveat', cursive;">– Let's Build the Future Together!🚀</span></h1>
+            <h2 style="font-family: 'Caveat', cursive;">✨ Contact us today, and we'll be happy to help! ✨</h2>
+            <!-- <div class="hero-buttons">
+                <a href="startnow.html"> <button class="try-free-btn"><strong>🚀 Start now - It's free</strong></button></a>
+                <a href="#" target="_blank">
+                    <button class="try-free-btn" style="background-color: #e8a000;">
+                      <strong>📅 Book a Free Consultation</strong>
+                    </button>
+                  </a>
+            </div> -->
+    </section>
+    <!-- <div class="container1">
+        <img src="image/k1.png" alt="Centered Image" style="height: 30%; width: 20%;">
+    </div> -->
+    <section class="hero">
+        <!-- <div class="business-show">
+       
+            <span>Virtual Tech Conference: Online Event</span>
+            <span>April 12, 2025</span>
+            <a href="#" style="color: #00A09D; text-decoration: none;">Register →</a>
+        </div> -->
+</section>
+   
+    <!-- <div class="apps-grid">
+        <div class="app-card">
+            <img src="website.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong>Website</strong></div>
+        </div>
+        <div class="app-card">
+            <img src="card1.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> NFC-Digital Card</strong></div>
+        </div>
+        <div class="app-card">
+            <img src="online-shopping.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> Listing </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="Catalogue.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> Catalogue</strong></div>
+        </div>
+        <div class="app-card">
+            <img src="digitalmarketing.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> Marketing </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="accounting.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong>Accounting Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="crm.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong>CRM Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="erp.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> ERP Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="res.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> Resturant Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="school.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong>School Software</strong></div>
+        </div>
+        <div class="app-card">
+            <img src="telephone.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> Whatsapp Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="help-desk.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> Support Ticketing Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="lms.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> LMS Software </strong></div>
+        </div>
+        <div class="app-card">
+            <img src="payment.png" alt="Accounting" class="app-icon">
+            <div class="app-name"><strong> POS Software </strong></div>
+        </div>
+        
+    </div> -->
+    <div class="container" style=" place-items: center; ">
+        <aside class="direct-contacts">
+            <div class="contact-option">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="contact-option-text">
+                    <h4>Schedule a demo</h4>
+                    <p>Choose your project & get a tailored demo</p>
+                </div>
+            </div>
+            <div class="contact-option">
+                <i class="fas fa-handshake"></i>
+                <div class="contact-option-text">
+                    <h4>Become a partner</h4>
+                    <p>Appointment with a partner manager</p>
+                </div>
+            </div>
+            <div class="contact-option">
+                <i class="fas fa-code"></i>
+                <div class="contact-option-text">
+                    <h4>Request Custom Developments</h4>
+                    <p>Need to get in touch with developers?</p>
+                </div>
+            </div>
+            <div class="contact-option">
+                <i class="fas fa-headset"></i>
+                <div class="contact-option-text">
+                    <h4>Support Requests</h4>
+                    <p>Need help? A question?</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center;">
+                <p>
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+918188890434" style=" text-decoration: none; color: inherit;">
+                         +91 8188890434
+                    </a>
+                </p>
+                <p>
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://wa.me/918188890434" target="_blank" style=" text-decoration: none; color: inherit;">
+                         https://wa.me/918188890434
+                    </a>
+                </p>
+                
+            </div>
+        </aside>
+    </div>
+   
+    <div class="footer-text">
+        <span><strong>A vast collection of business apps at your disposal.</strong> 
+        Got something to improve? There is an app for that.
+        No complexity, no cost, just a one-click install.</span>
+    </div>
+    
+    
+
+    <section class="hero">
+        <div class="quote-card">
+          
+            <div>
+                <p class="quote-text">If you simplify everything, you can do anything!</p>
+                <p class="quote-author">- Bill McDermott, former CEO of SAP</p>
+            </div>
+        </div>
+        <section class="sss"></section>
+        
+
+        <div class="container " style="font-family: 'Caveat', cursive;">
+            <h1 class="title no-select" style="font-family: 'Caveat', cursive;">
+                Unleash 
+                <br>
+                your <span class="growth-text" style="font-family: 'Caveat', cursive;">growth potential</span>
+            </h1>
+            <button class="btn no-select">📅 Book a Free Consultation</button>
+            <div class="info">
+                <div class="arrow">↑</div>
+                No credit card required
+                <br>
+                Instant access
+            </div>
+        </div>
+    
+    </section> 
+
+
+
+    <footer class="footer" style="text-align: left;">
+        <div class="footer-container">
+            <div>
+                <h3>About us</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.marsmetatech.com">Our company</a></li>
+                    <li><a href="Community.html">Brand Assets</a></li>
+                    <li><a href="Contact.html">Contact us</a></li>
+                    <li><a href="#">Jobs</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Podcast</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Customers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">MarsMeta Hosting</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Upgrade</a></li>
+                    <li><a href="#">Custom Developments</a></li>
+                    <li><a href="#">Education</a></li>
+                    <li><a href="#">Find an Accountant</a></li>
+                    <li><a href="#">Find a Partner</a></li>
+                    <li><a href="#">Become a Partner</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Open Source</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Download</a></li>
+                    <li><a href="#">Github</a></li>
+                    <li><a href="#">Runbot</a></li>
+                    <li><a href="#">Translations</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Community</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Forum</a></li>
+                </ul>
+            </div>
+            
+
+            
+
+            
+
+            <div class="footer-description">
+                <p style="margin-top: 20px;">
+                    MarsMeta Tech is a leading provider of cutting-edge tech services, offering solutions in software development, cloud computing, cybersecurity, AI integration, IT consulting, and more. We empower businesses with innovative, scalable, and secure technology to drive growth and efficiency.
+                </p>
+                <p style="margin-top: 10px;">
+                    MarsMeta Tech unique value proposition is to be at the same time very easy to use and fully integrated.
+                </p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61572315665008"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/marsmeta-tech-967433336/"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/marsmeta_tech/"><i class="fab fa-instagram"></i></a>
+                    <a href="tel:+91818890434"><i class="fas fa-phone"></i></a>
+                    <a href="https://wa.me/918188890434"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>Website made with <a href="https://www.marsmetatech.com" style="text-decoration: none;"><strong style="color: white;">MarsMeta Tech</strong></a></div>
+        </div>
+    </footer>
+    <script>
+        // Optimized sparkle animation for mobile
+        function createSparkle() {
+            // Reduce sparkle frequency on mobile
+            if (window.innerWidth < 768 && Math.random() > 0.5) return;
+            
+            const title = document.querySelector('.title');
+            const sparkle = document.createElement('span');
+            sparkle.textContent = '✦';
+            sparkle.className = 'sparkles no-select';
+            
+            // Adjusted positioning for mobile
+            const bounds = title.getBoundingClientRect();
+            const top = (Math.random() * bounds.height) - bounds.height/2;
+            const left = (Math.random() * bounds.width) - bounds.width/2;
+            
+            sparkle.style.position = 'absolute';
+            sparkle.style.top = `${top}px`;
+            sparkle.style.left = `${left}px`;
+            sparkle.style.animation = 'sparkle 1s ease forwards';
+            
+            title.appendChild(sparkle);
+            
+            // Clean up
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        }
+
+        // Reduced sparkle interval for better performance on mobile
+        const sparkleInterval = window.innerWidth < 768 ? 1000 : 500;
+        setInterval(createSparkle, sparkleInterval);
+
+        // Touch event handling
+        const button = document.querySelector('.btn');
+        
+        // Handle both click and touch events
+        button.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            createSparkle();
+            createSparkle();
+        }, { passive: false });
+
+       
+
+        // Disable double-tap zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+    <script>
+        // Language selector functionality
+        document.querySelector('.language-selector').addEventListener('click', function() {
+            // Add your language switching logic here
+            console.log('Language selector clicked');
+        });
+
+        // Social media link hover effects
+        document.querySelectorAll('.social-links a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+    <script>
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add hover effects to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.opacity = '0.9';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mobileNav = document.querySelector('.mobile-nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNav.style.display = 'block';
+            setTimeout(() => {
+                mobileNav.classList.add('active');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            setTimeout(() => {
+                mobileNav.style.display = 'none';
+            }, 300);
+            document.body.style.overflow = 'auto';
+        });
+
+        // Handle Android back button
+        window.addEventListener('popstate', () => {
+            if (mobileNav.classList.contains('active')) {
+                closeMenuBtn.click();
+                history.pushState(null, '');
+            }
+        });
+
+        // Add touch feedback
+        const buttons = document.querySelectorAll('button, .app-card');
+        buttons.forEach(button => {
+            button.addEventListener('touchstart', () => {
+                button.style.opacity = '0.7';
+            });
+            button.addEventListener('touchend', () => {
+                button.style.opacity = '1';
+            });
+        });
+
+  
+
+        // Add fastclick to eliminate 300ms delay
+        if ('addEventListener' in document) {
+            document.addEventListener('DOMContentLoaded', function() {
+                FastClick.attach(document.body);
+            }, false);
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/10.7.0/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/10.7.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/10.7.0/firebase-functions-compat.js"></script>
+    <script defer src="chat.js"></script>
+</body>
+</html>
