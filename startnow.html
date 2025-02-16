@@ -302,14 +302,14 @@
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 10rem);
             margin-bottom: 1rem;
             color: #1a1a1a;
             padding: 0 1rem;
         }
 
         .hero h2 {
-            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-size: clamp(1.4rem, 3vw, 3rem);
             margin-bottom: 2rem;
             color: #444;
             padding: 0 1rem;
@@ -846,57 +846,57 @@ input {
         <img src="image/online-shopping.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>Listing</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="Catalogue">
         <div class="checkmark">✓</div>
         <img src="image/Catalogue.png" alt="Catalogue" class="app-icon">
         <div class="app-name"><strong>Catalogue</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="Marketing">
         <div class="checkmark">✓</div>
         <img src="image/digitalmarketing.png" alt="Marketing" class="app-icon">
         <div class="app-name"><strong> Marketing</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="Accounting Software">
         <div class="checkmark">✓</div>
         <img src="image/accounting.png" alt="Accounting Software " class="app-icon">
         <div class="app-name"><strong>Accounting Software </strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="CRM Software">
         <div class="checkmark">✓</div>
         <img src="image/crm.png" alt="CRM Software" class="app-icon">
         <div class="app-name"><strong>CRM Software</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="ERP Software">
         <div class="checkmark">✓</div>
         <img src="image/erp.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>ERP Software</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="Resturant Software">
         <div class="checkmark">✓</div>
         <img src="image/res.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>Resturant Software</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="School Software">
         <div class="checkmark">✓</div>
         <img src="image/school.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>School Software</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="Whatsapp Software">
         <div class="checkmark">✓</div>
-        <img src="image/telephone.png" alt="Listing" class="app-icon">
-        <div class="app-name"><strong>School Software</strong></div>
+        <img src="image/whats.jpg" alt="Listing" class="app-icon">
+        <div class="app-name"><strong>Whatsapp Software</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="Support Ticketing Software">
         <div class="checkmark">✓</div>
         <img src="image/help-desk.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>Support Ticketing Software</strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="LMS Software">
         <div class="checkmark">✓</div>
         <img src="image/lms.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>LMS Software </strong></div>
     </div>
-    <div class="app-card" data-name="Listing">
+    <div class="app-card" data-name="POS Software">
         <div class="checkmark">✓</div>
         <img src="image/payment.png" alt="Listing" class="app-icon">
         <div class="app-name"><strong>POS Software</strong></div>
@@ -907,33 +907,45 @@ input {
 <div class="selected-apps">
     <div id="selectedAppsList"></div>
     <div class="free-trial">15 day free trial, no credit card required.</div>
-    <button class="continue-btn" id="continueBtn" disabled>Continue</button>
+    
+    <button class="continue-btn" id="continueBtn" disabled>
+        <a href="https://meetings-na2.hubspot.com/mars-meta" target="_blank" style="text-decoration: none;">
+            Continue
+        </a>
+    </button>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const appCards = document.querySelectorAll('.app-card');
-        const selectedAppsList = document.getElementById('selectedAppsList');
-        const continueBtn = document.getElementById('continueBtn');
-        const selectedApps = new Set();
+    document.addEventListener("DOMContentLoaded", function () {
+        const appCards = document.querySelectorAll(".app-card");
+        const selectedAppsList = document.getElementById("selectedAppsList");
+        const continueBtn = document.getElementById("continueBtn");
+
+        let selectedApps = [];
 
         appCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const appName = card.getAttribute('data-name');
-                if (selectedApps.has(appName)) {
-                    selectedApps.delete(appName);
-                    card.classList.remove('selected');
+            card.addEventListener("click", function () {
+                const appName = card.getAttribute("data-name");
+
+                if (!selectedApps.includes(appName)) {
+                    // Add new selection
+                    selectedApps.push(appName);
+                    card.classList.add("selected");
                 } else {
-                    selectedApps.add(appName);
-                    card.classList.add('selected');
+                    // Remove selection if already selected
+                    selectedApps = selectedApps.filter(name => name !== appName);
+                    card.classList.remove("selected");
                 }
+
                 updateSelectedApps();
             });
         });
 
         function updateSelectedApps() {
-            selectedAppsList.innerHTML = `Selected Apps: ${selectedApps.size}`;
-            continueBtn.disabled = selectedApps.size === 0;
+            selectedAppsList.innerHTML = selectedApps.map(app => `<div>${app}</div>`).join("");
+
+            // Enable "Continue" button if at least one app is selected
+            continueBtn.disabled = selectedApps.length === 0;
         }
     });
 </script>
@@ -963,7 +975,9 @@ input {
                 <br>
                 your <span class="growth-text" style="font-family: 'Caveat', cursive;">growth potential</span>
             </h1>
-            <button class="btn no-select">📅 Book a Free Consultation</button>
+            <a href="https://meetings-na2.hubspot.com/mars-meta" target="_blank">
+                <button class="btn no-select">📅 Book a Free Consultation</button>
+                </a>
             <div class="info">
                 <div class="arrow">↑</div>
                 No credit card required
